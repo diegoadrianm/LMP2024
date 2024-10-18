@@ -1,0 +1,7 @@
+<form method="post"></form>
+{% csrf_token %}
+{{ form.choice_text.label }} <br>
+{{ form.choice_text }}<br>
+<input type="submit" value="Enviar"><br>
+</form>
+<a href="{% url 'polls:index' %}">Volver a la lista de preguntas</a>

@@ -1,0 +1,10 @@
+li a {
+    color: green;
+    font-size: x-large;
+    font-weight: 600;
+}
+
+body {
+    background: url("images/images.png") no-repeat;
+    background-size: cover;
+}

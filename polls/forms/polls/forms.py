@@ -1,0 +1,14 @@
+from django import forms
+from polls.models import Question, Choice
+
+
+class ChoiceForm(forms.ModelForm):
+    class Meta:
+        model = Choice
+        fields = ['question', 'choice_text']
+
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question_text', 'pub_date']

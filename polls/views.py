@@ -1,10 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Choice
-from django.template import loader
+# from django.template import loader
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404
+# from django.http import Http404
 from django.urls import reverse
 from django.db.models import F
+from polls.forms.polls.forms import QuestionForm, ChoiceForm
 # Create your views here.
 
 
@@ -22,9 +23,9 @@ def detail(request, question_id):
     return render(request, "polls/detail.html", {"question": question})
 
 
-def results(request, question_id):
+"""def results(request, question_id):
     response = "You're looking at the results of the question %s"
-    return HttpResponse(response % question_id)
+    return HttpResponse(response % question_id)"""
 
 
 def vote(request, question_id):
@@ -66,3 +67,28 @@ def index(request):
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, "polls/results.html", {"question": question})
+
+
+def question_form(request):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("polls:index"))
+    else:
+        form = QuestionForm()
+    return render(request, 'polls/question_form.html', {"form": form})
+
+
+def choice_form(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == 'POST':
+        form = ChoiceForm(request.POST)
+        if form.is_valid():
+            choice = form.save(commit=False)
+            choice.question = question
+            choice.save()
+            return HttpResponseRedirect(reverse('polls:index'))
+    else:
+        form = ChoiceForm()
+    return render(request, 'polls/choice_form.html', {'form': form})
